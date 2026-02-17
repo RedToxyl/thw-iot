@@ -19,8 +19,22 @@ Important: check your voltages and include resistors to protect sensitive and ex
 
 ## Task 2
 
-This task was executed by my partner. The implementation was about ... 
-It is [here](https://github.com/partner/iot-portfolio/Module02/Readme.md#task-2).
+We started with:
+
+Jumpers (9FF, 22MF, many MM)
+Multimeter
+2 USB-Cables
+Power Supply
+2 D1 Minis
+9 LEDs
+1 1k Resistor
+4 270 Resistors
+3 Buttons
+
+## Task 3
+
+A D1 Mini has a 3.3V and 5V power pins, a ground pin, 11 GPIOs and special RST and ADC pins.
+GPIO stands for general purpose input output, these are the most commonly used microchip components. They can be set to emit voltage to control actuators or to instead read sensor input and data streams.
 
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
