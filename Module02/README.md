@@ -21,20 +21,39 @@ Important: check your voltages and include resistors to protect sensitive and ex
 
 We started with:
 
+
 Jumpers (9FF, 22MF, many MM)
+
 Multimeter
+
 2 USB-Cables
+
 Power Supply
+
 2 D1 Minis
+
 9 LEDs
+
+1 10k Resistor
+
 1 1k Resistor
+
 4 270 Resistors
+
 3 Buttons
 
 ## Task 3
 
 A D1 Mini has a 3.3V and 5V power pins, a ground pin, 11 GPIOs and special RST and ADC pins.
 GPIO stands for general purpose input output, these are the most commonly used microchip components. They can be set to emit voltage to control actuators or to instead read sensor input and data streams.
+
+# Task 5
+
+We used VSCode and PlatformIO to write and build our sourcecode. The basic setup is simple, two LEDs connected to two separate GPIOs, both connected to Ground through a 270 Ohm resistor.
+
+# Task 6
+
+Without a Pull-Up resistor, opening a switch (not pressing our button) would leave the circuit floating, i.e. with an undefined charge, purely influenced by random, external factors. In order to prevent this, a PU resistor can pull-up (or down) the remaining signal.
 
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
