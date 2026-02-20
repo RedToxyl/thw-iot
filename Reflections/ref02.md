@@ -9,3 +9,6 @@ I am feeling more confident and less confused than I did the last time I worked 
 Hadn't really understood pull-up resistors before, but now I think i got it.
 
 Instructors were able to solve any issues I had
+
+there is a lot of cool tech nowadays, I was especially intrigued by the capacitance based motion sensors we discussed
+
