@@ -45,7 +45,8 @@ Using INPUT_PULLUP simplifies the circuit design and means we don't have to worr
 
 ## Task 7
 
-[](/Module02/pictures/solenoid.gif) shows our setup and working example.
+[This](/Module02/pictures/solenoid.gif) shows our setup and working example.
+Had we switched NO and COM, we would have connected our solenoid directly to the 12V power source, skipping the relay. It would have been constantly on and overheated quickly.
 
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
