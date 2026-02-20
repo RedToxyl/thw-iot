@@ -2,13 +2,25 @@
 
 This is the hardware, I/we took out.
 
-## year-month-day
+## 2026-02-18
+- 1x large breadboard
+- 2 D1 Minis
+- 2 USB-Cables
+- 3 Buttons
+- 9 LEDs
+- Dht22
+- DS1820B Temperature Sensor
+- Jumper Cables (9FF, 22MF many MM)
+- Multimeter
+- Mpr121 Touch Sensor
+- Power Supply
+- Relay
+- Resistors (1x 10k, 1x 1k, 4x 270)
+- RFID Reader (+ Tags)
+- RGB LED
+- Solenoid
 
-- Dupont cables 20 socket to socket (watch https://youtu.be/yXirMBP3x4U for documentation)
-- 1x large breadboard, 1x medium size bredboard (watch https://youtu.be/yXirMBP3x4U for documentation)
--  ...
-
-![A picture showing all parts taken out this day.](/images/img01.jpg "A picture showing all parts taken out this day.]")
+![A picture showing all parts taken out this day.](/pictures/img01.jpg "A picture showing all parts taken out this day.]")
 
 ## Connectivity Classification Table
 

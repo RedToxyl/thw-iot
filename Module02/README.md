@@ -19,41 +19,33 @@ Important: check your voltages and include resistors to protect sensitive and ex
 
 ## Task 2
 
-We started with:
-
-
-Jumpers (9FF, 22MF, many MM)
-
-Multimeter
-
-2 USB-Cables
-
-Power Supply
-
-2 D1 Minis
-
-9 LEDs
-
-1 10k Resistor
-
-1 1k Resistor
-
-4 270 Resistors
-
-3 Buttons
+[Hardware](/Hardware/README.md)
 
 ## Task 3
 
 A D1 Mini has a 3.3V and 5V power pins, a ground pin, 11 GPIOs and special RST and ADC pins.
-GPIO stands for general purpose input output, these are the most commonly used microchip components. They can be set to emit voltage to control actuators or to instead read sensor input and data streams.
+GPIO stands for general purpose input output, these are the most commonly used microchip components. They can be set to emit voltage to control actuators or to instead read sensor input and data streams. For the first task, we didn't have any issues getting the LED to [work](/Module02/pictures/task03.png). We experimented a bit with the last task and added an additional [LED](/Module02/pictures/task03-2.png)
 
-# Task 5
+## Task 4
 
-We used VSCode and PlatformIO to write and build our sourcecode. The basic setup is simple, two LEDs connected to two separate GPIOs, both connected to Ground through a 270 Ohm resistor.
+[Here](/Module02/pictures/circuit.png) is a simplified circuit for the button-controlled LED. The power supply subsitutes for the D1 Mini.
 
-# Task 6
+## Task 5
 
-Without a Pull-Up resistor, opening a switch (not pressing our button) would leave the circuit floating, i.e. with an undefined charge, purely influenced by random, external factors. In order to prevent this, a PU resistor can pull-up (or down) the remaining signal.
+We used VSCode and PlatformIO to write and build our sourcecode instead of the ArduinoIDE, as thats the workflow we're more familier with. The basic circuit setup is simple, two LEDs connected to two separate GPIOs, both connected to Ground through a 270 Ohm resistor.
+
+Our [code](/src/module02/task05/main.cpp) is based on [this](/Module02/pictures/pinout.png) pinout. The results can be seen [here](/Module02/pictures/blink.gif)
+
+## Task 6
+Without a Pull-Up resistor, opening a switch (not pressing our button) would leave the circuit floating, i.e. with an undefined charge, purely influenced by random, external factors. In order to prevent this, a PU resistor can pull-up (or down) the remaining signal, leaving us with a clearly defined voltage in all cases. Thi behaviour can be seen [here](/Module02/pictures/pullup.gif).
+
+Our [code](/src/module02/task06/main.cpp) was written with [this](/Module02/pictures/pullup.png) setup in mind. The button is read at D0 and the LED controlled via D6.
+
+Using INPUT_PULLUP simplifies the circuit design and means we don't have to worry about choosing the right resistor ourselves. It removes overhead. However, we give up control over the exact resistance and trust in the chip. In some usecases, we might want to wire this ourselves to ensure correct behaviour. In class however, INPUT_PULLUP should mostly be sufficient.
+
+## Task 7
+
+[](/Module02/pictures/solenoid.gif) shows our setup and working example.
 
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
