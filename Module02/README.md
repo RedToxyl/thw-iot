@@ -48,6 +48,20 @@ Using INPUT_PULLUP simplifies the circuit design and means we don't have to worr
 [This](/Module02/pictures/solenoid.gif) shows our setup and working example.
 Had we switched NO and COM, we would have connected our solenoid directly to the 12V power source, skipping the relay. It would have been constantly on and overheated quickly.
 
+## Task 8
+[GIF](/Module02/pictures/pwm.gif)
+
+## Task 9
+
+| Component                          | Communication Method | Example Wiring |
+|------------------------------------|----------------------|---------|
+| RGB LED | Direct via GPIO | just connect data to GPIO pin and supply power via VCC/GND |
+| MPR121 Touch Sensor | I2C | SCL (clock) to D1, SDA (data) to D2 |
+| RFID Reader | SPI | M-CLK (clock) to D5, MISO (uplink) to D6, MOSI (downlink) to D7 |
+| BNO055 (IMU) | UART | TX to TXD0 (GPIO1), RX to RXD0 (GPIO3)|
+| DS1820B | OneWire | data to any gpio, but with a pullup resistor to 3.3V |
+
+
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
 
