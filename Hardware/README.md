@@ -20,9 +20,14 @@ This is the hardware, I/we took out.
 - RGB LED
 - Solenoid
 
-![A picture showing all parts taken out this day.](/pictures/img01.jpg "A picture showing all parts taken out this day.]")
+![A picture showing all parts taken out this day.](/pictures/img01.png "A picture showing all parts taken out this day.]")
 
 ## Connectivity Classification Table
 
-TODO: here will be a table showing different connection options like serial (uart/rs232), i2c, onewire, pwm, ... 
-and corresponding wiring documentation (update table when you get new interesting new parts)
+| Component                          | Communication Method | Example Wiring |
+|------------------------------------|----------------------|---------|
+| LED | Direct via GPIO | supply power via GPIO (and connect to ground, + resistor), use PWM to change brightness |
+| m Touch Sensor | I2C | SCL (clock) to D1, SDA (data) to D2 |
+| RFID Reader | SPI | M-CLK (clock) to D5, MISO (uplink) to D6, MOSI (downlink) to D7 |
+| BNO055 (IMU) | UART | TX to TXD0 (GPIO1), RX to RXD0 (GPIO3)|
+| DS1820B | OneWire | data to any gpio, but with a pullup resistor to 3.3V |

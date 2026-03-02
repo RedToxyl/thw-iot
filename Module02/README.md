@@ -53,14 +53,10 @@ Had we switched NO and COM, we would have connected our solenoid directly to the
 
 ## Task 9
 
-| Component                          | Communication Method | Example Wiring |
-|------------------------------------|----------------------|---------|
-| RGB LED | Direct via GPIO | just connect data to GPIO pin and supply power via VCC/GND |
-| MPR121 Touch Sensor | I2C | SCL (clock) to D1, SDA (data) to D2 |
-| RFID Reader | SPI | M-CLK (clock) to D5, MISO (uplink) to D6, MOSI (downlink) to D7 |
-| BNO055 (IMU) | UART | TX to TXD0 (GPIO1), RX to RXD0 (GPIO3)|
-| DS1820B | OneWire | data to any gpio, but with a pullup resistor to 3.3V |
+[Table of Connection Methods](/Hardware/README.md)
 
+As the shield already includes the correct wiring, using the temperature sensor is uncomplicated. We merely had to [slot it onto the W1](/Module02/pictures/dallas.png) and read out the temperature.
+Connecting the LED was similarly trivial, as it can just be stacked on top of the W1. [GIF](/Module02/pictures/rainbow.gif)
 
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
