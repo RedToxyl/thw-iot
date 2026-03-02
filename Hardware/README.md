@@ -20,7 +20,7 @@ This is the hardware, I/we took out.
 - RGB LED
 - Solenoid
 
-[A picture showing all parts taken out this day.](/pictures/img01.png "A picture showing all parts taken out this day.]")
+[A picture showing all parts taken out this day.](Hardware/pictures/img01.png "A picture showing all parts taken out this day.]")
 
 ## Connectivity Classification Table
 
