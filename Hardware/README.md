@@ -27,7 +27,7 @@ This is the hardware, I/we took out.
 | Component                          | Communication Method | Example Wiring |
 |------------------------------------|----------------------|---------|
 | LED | Direct via GPIO | supply power via GPIO (and connect to ground, + resistor), use PWM to change brightness |
-| m Touch Sensor | I2C | SCL (clock) to D1, SDA (data) to D2 |
+| MPR121 Touch Sensor | I2C | SCL (clock) to D1, SDA (data) to D2 |
 | RFID Reader | SPI | M-CLK (clock) to D5, MISO (uplink) to D6, MOSI (downlink) to D7 |
 | BNO055 (IMU) | UART | TX to TXD0 (GPIO1), RX to RXD0 (GPIO3)|
 | DS1820B | OneWire | data to any gpio, but with a pullup resistor to 3.3V |

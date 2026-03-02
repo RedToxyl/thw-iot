@@ -46,6 +46,7 @@ Using INPUT_PULLUP simplifies the circuit design and means we don't have to worr
 ## Task 7
 
 [This](/Module02/pictures/solenoid.gif) shows our setup and working example.
+
 Had we switched NO and COM, we would have connected our solenoid directly to the 12V power source, skipping the relay. It would have been constantly on and overheated quickly.
 
 ## Task 8
@@ -56,8 +57,10 @@ Had we switched NO and COM, we would have connected our solenoid directly to the
 [Table of Connection Methods](/Hardware/README.md)
 
 As the shield already includes the correct wiring, using the temperature sensor is uncomplicated. We merely had to [slot it onto the W1](/Module02/pictures/dallas.png) and read out the temperature.
+
 Connecting the LED was similarly trivial, as it can just be stacked on top of the W1. [GIF](/Module02/pictures/rainbow.gif)
 
+The touch sensor was troublesome. Baseline was constantly registred at 0. Turns out the newest version of the Adafruit library has some issues, and downgrading to version 1.3.1 fixed things. The [wiring](/Module02/pictures/touch.png) for the I2C was unproblematic, and in the end we managed to detect touch on the electrodes. With more time we would have added an LED controlled by the W1 to indicate touch.
 ## Reflection 2
 [Reflection 2](/Reflections/ref02.md)
 
