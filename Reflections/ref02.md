@@ -1,4 +1,4 @@
-Reflections about Session #2
+# Reflection 1 in Module 2
 
 Was once again reminded that the longer led pin is the anode (+), will probably forget it again after this course
 

@@ -16,7 +16,8 @@ Our team final project repository is [here](https://github.com/somewhere/final-i
   [Reflection 1](Reflections/ref01.md)
 - [Module 2: Hardware and Basic Electronics](Module02/README.md),
   [Reflection 2](Reflections/ref02.md)
-- ...
+- [Module 3: Infrastructure and Gateway Setup](Module03/README.md)
+  [Reflection 3](Reflections/ref03.md)
 
 ## Miscellanious
 

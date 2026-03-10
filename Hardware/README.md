@@ -22,6 +22,13 @@ This is the hardware, I/we took out.
 
 [A picture showing all parts taken out this day.](pictures/img01.png "A picture showing all parts taken out this day.]")
 
+## 2026-03-03
+- 300M mini smart router
+- Ethernet-Adapter
+
+[A picture showing all parts taken out this day.](pictures/img02.png "A picture showing all parts taken out this day.]")
+
+
 ## Connectivity Classification Table
 
 | Component                          | Communication Method | Example Wiring |

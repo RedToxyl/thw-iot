@@ -23,3 +23,10 @@ Set up and connect to your mango router. By default, root does not have a passwo
 Start the WiFi network. If necessary, add a password and ajust the channel.
 Connect your Mango to the internet to install Mosquitto. If no internet connection is available and you have already installed Mosquitto on your device, you may be able to transfer it via the ethernet or WiFi connection.
 Start the mosquitto service and connect your clients to the WiFi and to the Mango as MQTT host. Once you agree on topics, you can subscribe and publish under those for communication.
+
+## Tethering
+
+We were not able to get tethering to work, for reasons we could not determine.
+
+## Scenarios
+The scenarios didn't cause any issues. Screenshots taken at various points can be found [here](Module03/pictures).

@@ -1,7 +1,5 @@
 # Module 2
 
-We are going to show here notes for Task 1, 2, 3, 4, and 5 to prove
-
 ## Task 1
 
 An electric circuit consists of a power source (e.g. a battery), a wire connection between its poles and resistive elements inbetween.
