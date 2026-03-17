@@ -30,3 +30,6 @@ We were not able to get tethering to work, for reasons we could not determine.
 
 ## Scenarios
 The scenarios didn't cause any issues. Screenshots taken at various points can be found [here](Module03/pictures).
+
+## IOTempower
+The command line interface just works. '''mosquitto_sub -h 192.168.14.1 -p 1883 -t #''' subscribes to all topics. '''mosquitto_pub -h 192.168.14.1 -p 1883 -t "station/alert/test" -m "wobblewobble"''' publishes a message.

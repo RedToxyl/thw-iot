@@ -19,3 +19,7 @@ Being able to tether the Mango to your phone as an extended hotspot is cool.
 Dealing with the weird tethering issues was frustrating. Our power supply also had the tendency to randomly turn off, so we had to switch that.
 
 Other than that, the tasks were unproblematic
+
+Installing IOTempower took ages
+
+I don't think I learned anything new today. MQTT is pretty well understood by now.
