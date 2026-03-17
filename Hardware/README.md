@@ -3,11 +3,11 @@
 This is the hardware, I/we took out.
 
 ## 2026-02-18
-- 1x large breadboard
-- 2 D1 Minis
-- 2 USB-Cables
-- 3 Buttons
-- 9 LEDs
+- Large breadboard
+- 2x D1 Minis
+- 2x USB-Cables
+- 3x Buttons
+- 9x LEDs
 - Dht22
 - DS1820B Temperature Sensor
 - Jumper Cables (9FF, 22MF many MM)
@@ -28,6 +28,11 @@ This is the hardware, I/we took out.
 
 [A picture showing all parts taken out this day.](pictures/img02.png "A picture showing all parts taken out this day.]")
 
+
+## 2026-03-17
+- 2x ESP32 MiniKit
+
+[A picture showing all parts taken out this day.](pictures/img03.png "A picture showing all parts taken out this day.]")
 
 ## Connectivity Classification Table
 
