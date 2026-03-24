@@ -34,6 +34,12 @@ This is the hardware, I/we took out.
 
 [A picture showing all parts taken out this day.](pictures/img03.png "A picture showing all parts taken out this day.]")
 
+
+## 2026-03-24
+- 0.66" 64x48 Mini OLED shield
+
+[A picture showing all parts taken out this day.](pictures/img04.png "A picture showing all parts taken out this day.]")
+
 ## Connectivity Classification Table
 
 | Component                          | Communication Method | Example Wiring |

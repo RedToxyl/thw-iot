@@ -1,11 +1,12 @@
-#include <WiFi.h>
 #include <ArduinoOTA.h>
+#include <SoftwareSerial.h>
 
 const char *ssid = "IOT15";
 const char *password = "iotempire";
-const char* hostname = "esp32-minikitA";
+const char *ota_password = "iotempower";
+const char* hostname = "esp32-minikitB";
 
-
+SoftwareSerial mySerial(17, 16);  // RX, TX
 WiFiClient espClient;
 
 unsigned long lastMsg = 0;
@@ -36,14 +37,11 @@ void setup_wifi()
     Serial.println(WiFi.localIP());
 }
 
-// ---------------- SERIAL SETUP -----------------
-
-
 // ---------------- OTA SETUP ----------------
 void setup_ota()
 {
     ArduinoOTA.setHostname(hostname);
-    ArduinoOTA.setPassword(password);
+    ArduinoOTA.setPassword(ota_password);
 
     ArduinoOTA.onStart([]() {
         Serial.println("OTA Start");
@@ -70,18 +68,25 @@ void setup()
 {
     pinMode(BUILTIN_LED, OUTPUT);
     Serial.begin(115200);
+    mySerial.begin(9600);  // UART1
 
     setup_wifi();
     setup_ota();
 }
 
 // ---------------- LOOP ----------------
+String input = "";
 void loop()
 {
     ArduinoOTA.handle();   // MUST run frequently
 
-    if (!client.connected())
-        reconnect();
-
-    client.loop();
+    while (mySerial.available() > 0 and input[input.length() - 1] != '\n') {
+        char c = mySerial.read();
+        input += c;
+    }
+    if (input.length() > 0 and input[input.length() - 1] == '\n') {
+        Serial.print("Received from UART1: ");
+        Serial.print(input);
+        input = "";
+    }
 }

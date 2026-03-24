@@ -1,6 +1,6 @@
 #include <PubSubClient.h>
-#include <WiFi.h>
 #include <ArduinoOTA.h>
+#include <SoftwareSerial.h>
 
 const char *ssid = "IOT15";
 const char *password = "iotempire";
@@ -8,11 +8,11 @@ const char* hostname = "esp32-minikitA";
 const char* ota_password = "iotempower";
 
 const char* mqtt_topic = "status";
-
 const char *mqtt_server = "192.168.14.1";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+SoftwareSerial mySerial(16, 17);  // RX, TX
 
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
@@ -58,6 +58,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
  if (String(topic) == mqtt_topic) {
    Serial.println("Status received: " + message);
+   mySerial.println("Status received: " + message);
  }
 }
 
@@ -123,6 +124,8 @@ void setup()
 {
     pinMode(BUILTIN_LED, OUTPUT);
     Serial.begin(115200);
+
+    mySerial.begin(9600);  // UART1
 
     setup_wifi();
     setup_ota();
