@@ -32,3 +32,10 @@ We just slightly modifed the code from the previous task and kept the ESP to ESP
 ## Task 9
 
 We did most things in code and had little need for NodeRed. Connecting the LED-strip also didn't need any special consideration. We were able to reuse some old button code from a previous task, and [things worked well](/Module04/pictures/led.gif).
+
+# Module 4 Part 2
+
+## Task 1
+- [Node Red Integrator](/Module04/pictures/flow1.png)
+- [Node Red Simulator](/Module04/pictures/flow2.png)
+- [Node Red Dashboard](/Module04/pictures/dashboard.png)
