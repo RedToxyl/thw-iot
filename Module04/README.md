@@ -37,5 +37,9 @@ We did most things in code and had little need for NodeRed. Connecting the LED-s
 
 ## Task 1
 - [Node Red Integrator](/Module04/pictures/flow1.png)
+- [Python Integrator](Module04/python)
 - [Node Red Simulator](/Module04/pictures/flow2.png)
+- [C++ Simulator](/src/module04-2/task01-tempsim/main.cpp) (to try our new system, we wrote this for an ESP, but it was not attached to any sensors and merely served as a simulator)
 - [Node Red Dashboard](/Module04/pictures/dashboard.png)
+- [Temperature Sensor](/src/module04-2/task01-dallas/main.cpp)
+- ["AC" Relay](/src/module04-2/task01-ac/main.cpp)
