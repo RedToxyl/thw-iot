@@ -6,6 +6,7 @@
 #define ECL_SOFTWARE_SERIAL_RX 16      // Enables SoftwareSerial
 #define ECL_SOFTWARE_SERIAL_TX 17      // Enables SoftwareSerial
 #define ECL_SOFTWARE_SERIAL_SPEED 9600 // optional, default: 9600
+// #define ECL_SOFTWARE_SERIAL_ENABLE_LOGS // Enables SoftwareSerial for ECL::log.print
 
 #define ECL_OTA_HOSTNAME "esp32-minikitA" // Enables OTA
 #define ECL_OTA_PASSWORD "iotempower"     // optional, default: "iotempower"
@@ -23,14 +24,14 @@ ECL::Button btn(17);
 
 void mqttCallback(char *topic, char *payload)
 {
-    ECL::logf("Received on [%s]: %s", topic, payload); // printf via Serial & Telnet
-    softwareSerial.println(payload);                   // println via softwareSerial
+    ECL::log.printf("Received on [%s]: %s", topic, payload); // printf via Serial & Telnet
+    softwareSerial.println(payload);                         // println via softwareSerial
 }
 
 void onBtnClick()
 {
     static bool alarm = false;
-    ECL::log("Button is pressed!");
+    ECL::log.println("Button is pressed!");
     ECL::mqttPublish("security/alarm", (alarm = !alarm) ? "on" : "off");
 }
 
@@ -38,7 +39,8 @@ void setup()
 {
     ECL::begin(); // initializes OTA, MQTT, Telnet
     ECL::mqttSubscribe("prison/#", mqttCallback);
-    btn.setOnPress(onBtnClick);
+    btn.setOnPress(onBtnClick); // handles initialization and integration into ECL loop
+    ECL::setInterval(3000, [](){ ECL::log.println("Timer!"); }); // invoke every 3000ms
 }
 
 void loop()

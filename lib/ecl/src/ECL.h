@@ -29,6 +29,12 @@ SoftwareSerial softwareSerial(ECL_SOFTWARE_SERIAL_RX, ECL_SOFTWARE_SERIAL_TX);
 #endif
 
 // ========== TELNET GLOBALS ==========
+#if defined(ECL_SOFTWARE_SERIAL_ENABLE_LOGS)
+#if !defined(ECL_SOFTWARE_SERIAL_RX) || !defined(ECL_SOFTWARE_SERIAL_TX)
+#error "ECL Error: Software Serial logs require both ECL_SOFTWARE_SERIAL_RX and ECL_SOFTWARE_SERIAL_TX!"
+#endif
+#endif
+
 #if defined(ECL_TELNET_PORT)
 WiFiServer telnetServer(ECL_TELNET_PORT);
 WiFiClient telnetClient;
@@ -49,7 +55,7 @@ struct MqttSubscription
     String topic;
     std::function<void(char *, byte *, unsigned int)> callback;
 };
-std::vector<MqttSubscription> _eclSubscriptions;
+std::vector<MqttSubscription> _eclMqttSubscriptions;
 #endif
 
 // ========== OTA GLOBALS ==========
@@ -61,8 +67,31 @@ std::vector<MqttSubscription> _eclSubscriptions;
 #endif
 
 // ========== GLOBALS ==========
-std::vector<std::function<void()>> _eclLoopHandlers;
+struct EclTimer
+{
+    unsigned long interval;
+    unsigned long lastRun;
+    std::function<void()> callback;
+};
+class Logger : public Print
+{
+public:
+    size_t write(uint8_t c) override
+    {
+        size_t n = Serial.write(c);
+#if defined(ECL_SOFTWARE_SERIAL_ENABLE_LOGS)
+        softwareSerial.write(c);
+#endif
+#if defined(ECL_TELNET_PORT)
+        if (telnetClient && telnetClient.connected())
+            telnetClient.write(c);
+#endif
+        return n;
+    }
+};
 
+std::vector<std::function<void()>> _eclLoopHandlers;
+std::vector<EclTimer> _eclTimers;
 // ========== LIBRARY NAMESPACE ==========
 namespace ECL
 {
@@ -70,30 +99,36 @@ namespace ECL
     {
         _eclLoopHandlers.push_back(cb);
     }
-
+    inline void setInterval(unsigned long intervalMs, std::function<void()> cb)
+    {
+        _eclTimers.push_back({intervalMs, millis(), cb});
+    }
     // --- Logging Functions ---
-    inline void log(const String &msg)
-    {
-        Serial.println(msg);
-#if defined(ECL_TELNET_PORT)
-        if (telnetClient && telnetClient.connected())
-            telnetClient.println(msg);
-#endif
-    }
-    void logf(const char *format, ...)
-    {
-        char buffer[64];
-        va_list args;
-        va_start(args, format);
-        vsnprintf(buffer, sizeof(buffer), format, args);
-        va_end(args);
 
-        Serial.println(buffer);
-#if defined(ECL_TELNET_PORT)
-        if (telnetClient && telnetClient.connected())
-            telnetClient.println(buffer);
-#endif
-    }
+    extern Logger log;
+
+    //     inline void log(const String &msg)
+    //     {
+    //         Serial.println(msg);
+    // #if defined(ECL_TELNET_PORT)
+    //         if (telnetClient && telnetClient.connected())
+    //             telnetClient.println(msg);
+    // #endif
+    //     }
+    //     void logf(const char *format, ...)
+    //     {
+    //         char buffer[64];
+    //         va_list args;
+    //         va_start(args, format);
+    //         vsnprintf(buffer, sizeof(buffer), format, args);
+    //         va_end(args);
+
+    //         Serial.println(buffer);
+    // #if defined(ECL_TELNET_PORT)
+    //         if (telnetClient && telnetClient.connected())
+    //             telnetClient.println(buffer);
+    // #endif
+    //     }
     // --- MQTT ---
 
 #if defined(ECL_MQTT_SERVER)
@@ -127,7 +162,7 @@ namespace ECL
 
     inline void _mqttRoute(char *topic, byte *payload, unsigned int length)
     {
-        for (auto &sub : _eclSubscriptions)
+        for (auto &sub : _eclMqttSubscriptions)
             if (_mqttTopicMatch(sub.topic.c_str(), topic))
                 sub.callback(topic, payload, length);
     }
@@ -138,14 +173,14 @@ namespace ECL
     }
     inline void mqttSubscribe(const char *topic, std::function<void(char *, byte *, unsigned int)> cb)
     {
-        _eclSubscriptions.push_back({topic, cb});
+        _eclMqttSubscriptions.push_back({topic, cb});
         if (mqttClient.connected())
             mqttClient.subscribe(topic);
     }
 
     inline void mqttSubscribe(const char *topic, std::function<void(char *, char *)> cb)
     {
-        _eclSubscriptions.push_back(
+        _eclMqttSubscriptions.push_back(
             {topic, [cb](char *t, byte *p, unsigned int len)
              {
                  String payloadStr;
@@ -168,7 +203,7 @@ namespace ECL
 #endif
 // WiFi Setup
 #if defined(ECL_WIFI_SSID)
-        ECL::logf("Connecting to WiFi: %u", ECL_WIFI_SSID);
+        ECL::log.printf("Connecting to WiFi: %s\n", ECL_WIFI_SSID);
         WiFi.mode(WIFI_STA);
         WiFi.begin(ECL_WIFI_SSID, ECL_WIFI_PASSWORD);
 
@@ -181,7 +216,7 @@ namespace ECL
             delay(500);
             Serial.print(".");
         }
-        ECL::log("\nWiFi connected. IP: " + WiFi.localIP().toString());
+        ECL::log.println("\nWiFi connected. IP: " + WiFi.localIP().toString());
 #endif
 
 // Telnet Setup
@@ -204,15 +239,15 @@ namespace ECL
         ArduinoOTA.setHostname(ECL_OTA_HOSTNAME);
         ArduinoOTA.setPassword(ECL_OTA_PASSWORD);
         ArduinoOTA.onStart([]()
-                           { ECL::log("OTA Start"); });
+                           { ECL::log.println("OTA Start"); });
         ArduinoOTA.onEnd([]()
-                         { ECL::log("\nOTA End"); });
+                         { ECL::log.println("\nOTA End"); });
         ArduinoOTA.onProgress([](unsigned int progress, unsigned int total)
-                              { ECL::logf("Progress: %u%%\r", (progress / (total / 100))); });
+                              { ECL::log.printf("Progress: %u%%\r\n", (progress / (total / 100))); });
         ArduinoOTA.onError([](ota_error_t error)
-                           { ECL::logf("Error[%u]\n", error); });
+                           { ECL::log.printf("Error[%u]\n", error); });
         ArduinoOTA.begin();
-        ECL::log("OTA Ready");
+        ECL::log.println("OTA Ready");
 #endif
     }
 
@@ -235,9 +270,9 @@ namespace ECL
         {
             if (mqttClient.connect(ECL_MQTT_CLIENT))
             {
-                for (const auto &sub : _eclSubscriptions)
+                for (const auto &sub : _eclMqttSubscriptions)
                     mqttClient.subscribe(sub.topic.c_str());
-                ECL::log("MQTT Reconnected & Subscribed");
+                ECL::log.println("MQTT Reconnected & Subscribed");
             }
         }
         else
@@ -247,5 +282,15 @@ namespace ECL
 #endif
         for (const auto &handler : _eclLoopHandlers)
             handler();
+
+        unsigned long currentMillis = millis();
+        for (auto &timer : _eclTimers)
+        {
+            if (currentMillis - timer.lastRun >= timer.interval)
+            {
+                timer.lastRun = currentMillis;
+                timer.callback();
+            }
+        }
     }
 }
