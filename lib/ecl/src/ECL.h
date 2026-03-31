@@ -105,7 +105,8 @@ namespace ECL
     }
     // --- Logging Functions ---
 
-    extern Logger log;
+    Logger log;
+
 
     //     inline void log(const String &msg)
     //     {
