@@ -1,0 +1,13 @@
+.gitignore
+README.rst
+pyproject.toml
+setup.py
+src/iotknit/__init__.py
+src/iotknit/thingconnector.py
+src/iotknit/thingi.py
+src/iotknit.egg-info/PKG-INFO
+src/iotknit.egg-info/SOURCES.txt
+src/iotknit.egg-info/dependency_links.txt
+src/iotknit.egg-info/requires.txt
+src/iotknit.egg-info/top_level.txt
+tests/test_thingconnector.py
