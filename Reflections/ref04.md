@@ -11,3 +11,9 @@ For Task 5, we originally compiled for the wrong chip (W1_Mini_Prop instead of W
 # Reflection 2 in Module 4
 
 Spending the extra time last session to setup OTA for the ESPs was definitively worth it, it saves so much time.
+
+# Reflections 3 in Module 4
+
+We wrote a small library to take care of a lot of boilerplate (WiFi, OTA, MQTT setup, etc.) for us. Today we will try and see how well it works and where we can improve on it.
+MQTT is easy to set up, which is why it simplifies IoT integration. We can easily connect many sensors and actuators in a network via MQTT without having to do a lot of work ourselves.
+One example for MQTT would be digital room signage. One could install displays on every room containing the current class, timetable, etc. These could easily be connected by and updated through MQTT.

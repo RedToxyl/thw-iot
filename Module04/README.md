@@ -28,3 +28,7 @@ The wiring is simple, both nodes are directly connected from GPIO16 to GPIO16 an
 
 ## Task 8
 We just slightly modifed the code from the previous task and kept the ESP to ESP connection for simplicity. It worked [well](/Module04/pictures/oled.gif).
+
+## Task 9
+
+We did most things in code and had little need for NodeRed. Connecting the LED-strip also didn't need any special consideration. We were able to reuse some old button code from a previous task, and [things worked well](/Module04/pictures/led.gif).
