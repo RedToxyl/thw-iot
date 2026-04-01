@@ -3,7 +3,6 @@
 #include <vector>
 
 // ========== VALIDATION & DEPENDENCIES ==========
-// If OTA, MQTT, or Telnet are defined, we MUST have WiFi enabled.
 #if defined(ECL_OTA_HOSTNAME) || defined(ECL_MQTT_SERVER) || defined(ECL_TELNET_PORT)
 #ifndef ECL_WIFI_SSID
 #error "ECL Error: ECL_WIFI_SSID must be defined to use OTA, MQTT, or Telnet!"
@@ -12,11 +11,19 @@
 
 // ========== WIFI GLOBALS ==========
 #if defined(ECL_WIFI_SSID)
-#include <WiFi.h>
+
+#if defined(ESP32)
+  #include <WiFi.h>
+#elif defined(ESP8266)
+  #include <ESP8266WiFi.h>
+#endif
+
 #ifndef ECL_WIFI_PASSWORD
 #define ECL_WIFI_PASSWORD "iotempire"
 #endif
+
 WiFiClient wifiClient;
+
 #endif
 
 // ========== SOFTWARE SERIAL GLOBALS ==========
@@ -50,11 +57,13 @@ WiFiClient telnetClient;
 #define ECL_MQTT_CLIENT "node"
 #endif
 PubSubClient mqttClient(wifiClient);
+
 struct MqttSubscription
 {
     String topic;
     std::function<void(char *, byte *, unsigned int)> callback;
 };
+
 std::vector<MqttSubscription> _eclMqttSubscriptions;
 #endif
 
@@ -73,15 +82,18 @@ struct EclTimer
     unsigned long lastRun;
     std::function<void()> callback;
 };
+
 class Logger : public Print
 {
 public:
     size_t write(uint8_t c) override
     {
         size_t n = Serial.write(c);
+
 #if defined(ECL_SOFTWARE_SERIAL_ENABLE_LOGS)
         softwareSerial.write(c);
 #endif
+
 #if defined(ECL_TELNET_PORT)
         if (telnetClient && telnetClient.connected())
             telnetClient.write(c);
@@ -92,6 +104,7 @@ public:
 
 std::vector<std::function<void()>> _eclLoopHandlers;
 std::vector<EclTimer> _eclTimers;
+
 // ========== LIBRARY NAMESPACE ==========
 namespace ECL
 {
@@ -99,50 +112,25 @@ namespace ECL
     {
         _eclLoopHandlers.push_back(cb);
     }
+
     inline void setInterval(unsigned long intervalMs, std::function<void()> cb)
     {
         _eclTimers.push_back({intervalMs, millis(), cb});
     }
-    // --- Logging Functions ---
 
     Logger log;
 
-
-    //     inline void log(const String &msg)
-    //     {
-    //         Serial.println(msg);
-    // #if defined(ECL_TELNET_PORT)
-    //         if (telnetClient && telnetClient.connected())
-    //             telnetClient.println(msg);
-    // #endif
-    //     }
-    //     void logf(const char *format, ...)
-    //     {
-    //         char buffer[64];
-    //         va_list args;
-    //         va_start(args, format);
-    //         vsnprintf(buffer, sizeof(buffer), format, args);
-    //         va_end(args);
-
-    //         Serial.println(buffer);
-    // #if defined(ECL_TELNET_PORT)
-    //         if (telnetClient && telnetClient.connected())
-    //             telnetClient.println(buffer);
-    // #endif
-    //     }
-    // --- MQTT ---
-
 #if defined(ECL_MQTT_SERVER)
+
     bool _mqttTopicMatch(const char *sub, const char *topic)
     {
         while (*sub && *topic)
         {
-            if (*sub == '#')
-                return true;
+            if (*sub == '#') return true;
+
             if (*sub == '+')
             {
-                while (*topic && *topic != '/')
-                    topic++;
+                while (*topic && *topic != '/') topic++;
                 sub++;
                 if (*topic == '/' && *sub == '/')
                 {
@@ -151,13 +139,15 @@ namespace ECL
                 }
                 continue;
             }
-            if (*sub != *topic)
-                return false;
+
+            if (*sub != *topic) return false;
+
             sub++;
             topic++;
         }
-        if (*sub == '#' && *(sub + 1) == '\0')
-            return true;
+
+        if (*sub == '#' && *(sub + 1) == '\0') return true;
+
         return (*sub == '\0' && *topic == '\0');
     }
 
@@ -172,6 +162,7 @@ namespace ECL
     {
         mqttClient.publish(topic, payload);
     }
+
     inline void mqttSubscribe(const char *topic, std::function<void(char *, byte *, unsigned int)> cb)
     {
         _eclMqttSubscriptions.push_back({topic, cb});
@@ -190,26 +181,33 @@ namespace ECL
                      payloadStr += (char)p[i];
                  cb(t, (char *)payloadStr.c_str());
              }});
+
         if (mqttClient.connected())
             mqttClient.subscribe(topic);
     }
+
 #endif
 
-    // --- Initialization ---
+    // ========== INIT ==========
     inline void begin()
     {
-// Serial Setup
 #if defined(ECL_SERIAL_SPEED)
         Serial.begin(ECL_SERIAL_SPEED);
 #endif
-// WiFi Setup
+
 #if defined(ECL_WIFI_SSID)
+
         ECL::log.printf("Connecting to WiFi: %s\n", ECL_WIFI_SSID);
+
         WiFi.mode(WIFI_STA);
-        WiFi.begin(ECL_WIFI_SSID, ECL_WIFI_PASSWORD);
+        WiFi.begin((const char*)ECL_WIFI_SSID, (const char*)ECL_WIFI_PASSWORD);
 
 #if defined(ECL_OTA_HOSTNAME)
+    #if defined(ESP32)
         WiFi.setHostname(ECL_OTA_HOSTNAME);
+    #elif defined(ESP8266)
+        WiFi.hostname(ECL_OTA_HOSTNAME);
+    #endif
 #endif
 
         while (WiFi.status() != WL_CONNECTED)
@@ -217,62 +215,73 @@ namespace ECL
             delay(500);
             Serial.print(".");
         }
+
         ECL::log.println("\nWiFi connected. IP: " + WiFi.localIP().toString());
+
 #endif
 
-// Telnet Setup
 #if defined(ECL_TELNET_PORT)
         telnetServer.begin();
 #endif
 
-// Software Serial Setup
 #if defined(ECL_SOFTWARE_SERIAL_RX) && defined(ECL_SOFTWARE_SERIAL_TX)
         softwareSerial.begin(ECL_SOFTWARE_SERIAL_SPEED);
 #endif
 
-// MQTT Setup
 #if defined(ECL_MQTT_SERVER)
         mqttClient.setServer(ECL_MQTT_SERVER, ECL_MQTT_PORT);
         mqttClient.setCallback(_mqttRoute);
 #endif
-// OTA Setup
+
 #if defined(ECL_OTA_HOSTNAME)
         ArduinoOTA.setHostname(ECL_OTA_HOSTNAME);
         ArduinoOTA.setPassword(ECL_OTA_PASSWORD);
-        ArduinoOTA.onStart([]()
-                           { ECL::log.println("OTA Start"); });
-        ArduinoOTA.onEnd([]()
-                         { ECL::log.println("\nOTA End"); });
+
+        ArduinoOTA.onStart([](){ ECL::log.println("OTA Start"); });
+        ArduinoOTA.onEnd([](){ ECL::log.println("\nOTA End"); });
         ArduinoOTA.onProgress([](unsigned int progress, unsigned int total)
-                              { ECL::log.printf("Progress: %u%%\r\n", (progress / (total / 100))); });
+        {
+            ECL::log.printf("Progress: %u%%\r\n", (progress / (total / 100)));
+        });
         ArduinoOTA.onError([](ota_error_t error)
-                           { ECL::log.printf("Error[%u]\n", error); });
+        {
+            ECL::log.printf("Error[%u]\n", error);
+        });
+
         ArduinoOTA.begin();
         ECL::log.println("OTA Ready");
 #endif
     }
 
-    // --- Loop Handler ---
+    // ========== LOOP ==========
     inline void loop()
     {
-// Handle OTA
 #if defined(ECL_OTA_HOSTNAME)
         ArduinoOTA.handle();
 #endif
 
-// Handle Telnet
 #if defined(ECL_TELNET_PORT)
+
+    #if defined(ESP32)
         if (telnetServer.hasClient())
             telnetClient = telnetServer.available();
+    #elif defined(ESP8266)
+        WiFiClient newClient = telnetServer.available();
+        if (newClient)
+            telnetClient = newClient;
+    #endif
+
 #endif
-// Handle MQTT Reconnection & Loop
+
 #if defined(ECL_MQTT_SERVER)
+
         if (!mqttClient.connected())
         {
             if (mqttClient.connect(ECL_MQTT_CLIENT))
             {
                 for (const auto &sub : _eclMqttSubscriptions)
                     mqttClient.subscribe(sub.topic.c_str());
+
                 ECL::log.println("MQTT Reconnected & Subscribed");
             }
         }
@@ -280,11 +289,14 @@ namespace ECL
         {
             mqttClient.loop();
         }
+
 #endif
+
         for (const auto &handler : _eclLoopHandlers)
             handler();
 
         unsigned long currentMillis = millis();
+
         for (auto &timer : _eclTimers)
         {
             if (currentMillis - timer.lastRun >= timer.interval)

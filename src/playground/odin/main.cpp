@@ -19,6 +19,8 @@ void setup()
         while (1);
     }
     Serial.println("MPR121 found!");
+
+    cap.setThresholds(8, 4);
 }
 
 void loop()
@@ -26,15 +28,11 @@ void loop()
     // Get the currently touched pads
     uint16_t touched = cap.touched();
 
-    for (uint8_t i = 0; i < 2; i++){
-        // Check if this sensor is touched
-        if (touched & (1 << i)){
-            Serial.print("Sensor ");
-            Serial.print(i);
-            Serial.println(" touched");
-        }
-    }
+    Serial.printf("Filtered data for pad 0: %d\n", cap.filteredData(0));
+    Serial.printf("Baseline data for pad 0: %d\n", cap.baselineData(0));
 
+    if (touched) Serial.println("Wet at time: " + String(millis()));
+    Serial.println("");
     // Put a delay so the serial output is not too overwhelming
-    delay(100);
+    delay(500);
 }

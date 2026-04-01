@@ -1,6 +1,6 @@
 #include <ArduinoOTA.h>
 #include <SoftwareSerial.h>
-#include <U8g2lib.h>
+
 
 const char *ssid = "IOT15";
 const char *password = "iotempire";
