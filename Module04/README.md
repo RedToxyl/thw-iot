@@ -43,3 +43,7 @@ We did most things in code and had little need for NodeRed. Connecting the LED-s
 - [Node Red Dashboard](/Module04/pictures/dashboard.png)
 - [Temperature Sensor](/src/module04-2/task01-dallas/main.cpp)
 - ["AC" Relay](/src/module04-2/task01-ac/main.cpp)
+
+## Task 2
+The various bits of [sourcecode](/src/module04-2/)
+We only had three power supplies, four chips but had to use five logical components, so we attempted to wire together some things. [This](/Module04/pictures/rfid.gif) shows part of that setup and demonstrates an RFID card being read and granting entry after first being registered by the ultrasonic distance sensor.

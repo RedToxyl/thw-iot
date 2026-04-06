@@ -17,7 +17,7 @@ void setup()
 void loop()
 {
     ECL::loop();
-    delay(150);
+    delay(500);
 
     if (!mfrc522.PICC_IsNewCardPresent())
     {

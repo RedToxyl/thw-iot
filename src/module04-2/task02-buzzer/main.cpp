@@ -1,6 +1,6 @@
 #include <ECL.h>
 
-#define BZZ_PIN D8
+#define BZZ_PIN D1
 
 #define NOTE_A3 220
 #define NOTE_B3 247
