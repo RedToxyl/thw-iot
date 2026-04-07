@@ -6,8 +6,6 @@ Understandably, the arduino does not enjoy us trying access this undefined point
 ## Task 2
 Similarly, a division by 0 [isn't great](/Module04/pictures/crash1.png) either.
 
-## Task 3
-
 ## Task 4
 The delay of 1000ms was significantly too long for an ISR. Furthermore, using delay inside an interrupt will lead to unexpected behaviour in general, as most timers don't work during interrupts. [Removing the delay](/src/module04/task04-interrupt/main.cpp) fixed things.
 
