@@ -10,3 +10,9 @@ Any alternative to NodeRed would be nice
 As a general note; I think this course shines most when we are able to freely work on our projects and tasks, and is the weakest during frontal lectures.
 
 I am not yeld sold on IOTempower. The deployment and flashing is nice, but the library itself, ehh. Remains to be seen whether I will use it.
+
+# Reflection 2 in Module 5
+
+We decided to not use IOTempower to be able to write our own code. Missing out on the easy flashing is annoying, but the flexibility we gained in code was worthwhile.
+
+We decided to implement a morse-code based password entry system connected to a database (InfluxDB). It was fun. 
