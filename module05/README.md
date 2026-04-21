@@ -47,6 +47,8 @@ Hardware/Software: Single physical button (running custom C++ code), Display, MQ
 
 Potential Difficulties: Guests might struggle to input Morse code accurately.
 
+This is the challenge we actually implemented. The result can be seen [here](/Module05/pictures/morse.gif)
+
 ## Prototyped Implementation
 
 *RFID Scanner*: Wemos D1 Mini configured via IoTempower. It scans the RFID tag and sends an MQTT message, which is then handled by Node-RED.
