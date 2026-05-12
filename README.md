@@ -5,10 +5,10 @@ Author: Thomas Wolf
 My partner is Egor Lukyanenko ([Portfolio](https://github.com/egor123/iot-portfolio))
 
 In my team for the final project, I also had the following members:
-- <replace these pointy brackets with their full name>, [portfolio link](https://github.com/partner/iot-portfolio)
-- <replace these pointy brackets with their full name>, [portfolio link](https://github.com/partner/iot-portfolio)
+- [Martin Hans Keskküla] (https://github.com/gCoreByte)
+- [Shpetim Ibrani] (https://github.com/shpetimibrani)
 
-Our team final project repository is [here](https://github.com/somewhere/final-iot-project)
+Our team final project repository is [here](https://github.com/RedToxyl/tartu-iot-bike)
 
 ## Table of Contents
 
